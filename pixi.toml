@@ -1,0 +1,34 @@
+[workspace]
+channels = ["conda-forge"]
+name = "BGS-TP"
+platforms = ["linux-64"]
+version = "0.1.0"
+
+[tasks]
+train = "python -m src.train"
+bp = "python -m src.train --method bp"
+overfit = "python -m src.overfit"
+compare = "python -m src.plotting"
+smoke = "python -m unittest discover -s tests -v"
+
+[dependencies]
+python = "3.12.*"
+numpy = ">=1.26,<3"
+matplotlib-base = ">=3.9,<4"
+torchvision = "0.22.*"
+
+[feature.cpu.dependencies]
+pytorch = { version = "2.7.1.*", build = "cpu*" }
+torchvision = { version = "0.22.*", build = "cpu*" }
+
+[feature.cuda.system-requirements]
+cuda = "12.6"
+
+[feature.cuda.dependencies]
+pytorch = { version = "2.7.1.*", build = "cuda126*" }
+torchvision = { version = "0.22.*", build = "cuda126*" }
+cuda-version = "12.6.*"
+
+[environments]
+default = ["cpu"]
+cuda = ["cuda"]
